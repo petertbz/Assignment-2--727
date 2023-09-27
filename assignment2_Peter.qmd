@@ -177,15 +177,46 @@ acs_il <-
 It seems like we could try to use this location information listed above to merge this data set with the Google Trends data. However, we first have to clean `NAME` so that it has the same structure as `location` in the search interest by city data. Add a new variable `location` to the ACS data that only includes city names.
 
 ```{r}
+library(stringr)
+pattern = c("St." = "Saint")
 
+acs_il = acs_il %>% 
+  mutate(location = str_remove_all(NAME, c(" town,| city,| village,| Illinois"))) %>% 
+  mutate(location = str_replace_all(location, coll(pattern)))
 ```
 
 Answer the following questions with the "crime" and "loans" Google trends data and the ACS data.
 
 -   First, check how many cities don't appear in both data sets, i.e. cannot be matched. Then, create a new data set by joining the Google Trends and the ACS data. Keep only cities that appear in both data sets.
 
+```{r}
+check = left_join(acs_il, rescity, by = "location")
+check %>% filter(is.na(geo)) %>% count()
+
+joint = inner_join(rescity, acs_il, by = "location")
+```
+
 -   Compute the mean of the search popularity for both keywords for cities that have an above average median household income and for those that have an below average median household income. When building your pipe, start with creating the grouping variable and then proceed with the remaining tasks. What conclusions might you draw from this?
 
+```{r}
+group1 = joint %>% 
+  mutate(mean = mean(hh_income, na.rm = TRUE)) %>% 
+  mutate(group = ifelse(hh_income > mean, "high", "low")) %>% 
+  group_by(group) %>% 
+  summarise(crime = mean(crime, na.rm = TRUE),
+            loans = mean(loans, na.rm = TRUE)) %>% 
+  filter(!is.na(group))
+kable(group1, caption = "Search Popularity by Household Income")
+```
+
 -   Is there a relationship between the median household income and the search popularity of the Google trends terms? Describe the relationship and use a scatterplot with `qplot()`.
+
+```{r}
+library(ggpubr)
+
+p1 = qplot(x = hh_income, y = crime, data = joint)
+p2 = qplot(x = hh_income, y = loans, data = joint)
+ggarrange(p1, p2, ncol = 2, nrow = 1)
+```
 
 Repeat the above steps using the covid data and the ACS data.
