@@ -25,7 +25,7 @@ Whenever possible, use piping and `dplyr`. Avoid hard-coding any numbers within 
 
 Our first data source is the Google Trends API. Suppose we are interested in the search trends for `crime` and `loans` in Illinois in the year 2020. We could find this using the following code:
 
-```{r}
+```{r warning=FALSE}
 res = gtrends(c("crime", "loans"), 
                geo = "US-IL", 
                time = "2020-01-01 2020-12-31", 
@@ -37,7 +37,7 @@ Answer the following questions for the keywords "crime" and "loans".
 
 -   Find the mean, median and variance of the search hits for the keywords.
 
-```{r}
+```{r warning=FALSE}
 # transfer the data into tibble
 rest = as_tibble(res$interest_over_time)
 
@@ -59,7 +59,7 @@ According to Table 1, we can find that the keyword `crime` has a mean of $55.000
 
 -   Which cities (locations) have the highest search frequency for `loans`? Note that there might be multiple rows for each city if there were hits for both "crime" and "loans" in that city. It might be easier to answer this question if we had the search hits info for both search terms in two separate variables. That is, each row would represent a unique city.
 
-```{r}
+```{r warning=FALSE}
 rescity = as_tibble(res$interest_by_city) %>% 
   pivot_wider(., names_from = keyword, values_from = hits) %>% 
   arrange(., desc(loans))
@@ -70,7 +70,7 @@ According to Table 2, Midlothia has the highest search frequency for `loans` wit
 
 -   Is there a relationship between the search intensities between the two keywords we used?
 
-```{r}
+```{r warning=FALSE}
 crime = rest %>% 
   filter(keyword == "crime") %>% 
   select(date, hits) %>% 
@@ -91,13 +91,17 @@ From the plot above, it seems like there is a negative correlation between crime
 
 Repeat the above for keywords related to covid. Make sure you use multiple keywords like we did above. Try several different combinations and think carefully about words that might make sense within this context.
 
-```{r}
+We choose `covid` and `mask` as our keywords for analysis.
+
+```{r warning=FALSE}
 res2 = gtrends(c("covid", "mask"), 
                geo = "US-IL", 
                time = "2020-03-01 2021-12-31", 
                low_search_volume = TRUE)
 plot(res2)
+```
 
+```{r warning=FALSE}
 # transfer the data into tibble
 rest2 = as_tibble(res2$interest_over_time)
 
@@ -109,12 +113,20 @@ descriptive2 = rest2 %>%
             median = median(hits),
             variance = var(hits))
 kable(descriptive2, caption = "Descriptive Statistics of Keywords")
+```
 
+From the table, we can find that the keyword `covid` has a mean of $37.906250$, a median of $38$ and a variance of $206.6332$. The keyword `mask` has a mean of $6.145833$, a median of $4$ and a variance of $14.7364$.
+
+```{r warning=FALSE}
 rescity2 = as_tibble(res2$interest_by_city) %>% 
   pivot_wider(., names_from = keyword, values_from = hits) %>% 
-  arrange(., desc(mask))
+  arrange(., desc(covid))
 kable(head(rescity2), caption = "Highest Search Frequency for mask")
+```
 
+From the table, we can see that Barrington has the highest search frequency for `covid` with the value of $100$.
+
+```{r warning=FALSE}
 mask = rest2 %>% 
   filter(keyword == "mask") %>% 
   select(date, hits) %>% 
@@ -129,7 +141,11 @@ maskcovid = left_join(mask, covid, by = "date")
 cor.test(maskcovid$maskhits, maskcovid$covidhits)
 ```
 
-## Google Trends + ACS
+From the correlation test, we can see that `covid` has a significant correlation with `mask` at 0.05 level. The correlation probably means that people will search for mask when Covid-19 is severe in one place.
+
+# Google Trends + ACS
+
+## `crime` and `loans`
 
 Now lets add another data set. The `censusapi` package provides a nice R interface for communicating with this API. However, before running queries we need an access key. This (easy) process can be completed here:
 
@@ -137,13 +153,13 @@ Now lets add another data set. The `censusapi` package provides a nice R interfa
 
 Once you have an access key, store this key in the `cs_key` object. We will use this object in all following API queries.
 
-```{r}
+```{r warning=FALSE}
 cs_key <- "c0fd12402e23b7a95923e694f046015d624c91c5"
 ```
 
 In the following, we request basic socio-demographic information (population, median age, median household income, income per capita) for cities and villages in the state of Illinois.
 
-```{r}
+```{r warning=FALSE}
 acs_il <- getCensus(name = "acs/acs5",
                     vintage = 2020, 
                     vars = c("NAME", 
@@ -159,13 +175,13 @@ head(acs_il)
 
 Convert values that represent missings to NAs.
 
-```{r}
+```{r warning=FALSE}
 acs_il[acs_il == -666666666] <- NA
 ```
 
 Now, it might be useful to rename the socio-demographic variables (`B01001_001E` etc.) in our data set and assign more meaningful names.
 
-```{r}
+```{r warning=FALSE}
 acs_il <-
   acs_il %>%
   rename(pop = B01001_001E, 
@@ -176,7 +192,7 @@ acs_il <-
 
 It seems like we could try to use this location information listed above to merge this data set with the Google Trends data. However, we first have to clean `NAME` so that it has the same structure as `location` in the search interest by city data. Add a new variable `location` to the ACS data that only includes city names.
 
-```{r}
+```{r warning=FALSE}
 library(stringr)
 pattern = c("St." = "Saint")
 
@@ -189,7 +205,7 @@ Answer the following questions with the "crime" and "loans" Google trends data a
 
 -   First, check how many cities don't appear in both data sets, i.e. cannot be matched. Then, create a new data set by joining the Google Trends and the ACS data. Keep only cities that appear in both data sets.
 
-```{r}
+```{r warning=FALSE}
 check = left_join(acs_il, rescity, by = "location")
 check %>% filter(is.na(geo)) %>% count()
 
@@ -198,7 +214,7 @@ joint = inner_join(rescity, acs_il, by = "location")
 
 -   Compute the mean of the search popularity for both keywords for cities that have an above average median household income and for those that have an below average median household income. When building your pipe, start with creating the grouping variable and then proceed with the remaining tasks. What conclusions might you draw from this?
 
-```{r}
+```{r warning=FALSE}
 group1 = joint %>% 
   mutate(mean = mean(hh_income, na.rm = TRUE)) %>% 
   mutate(group = ifelse(hh_income > mean, "high", "low")) %>% 
@@ -209,9 +225,11 @@ group1 = joint %>%
 kable(group1, caption = "Search Popularity by Household Income")
 ```
 
+From the table, cities that have an above average median household income have lower crime hits and lower loans hits, which means crime and loans may correlate with income.
+
 -   Is there a relationship between the median household income and the search popularity of the Google trends terms? Describe the relationship and use a scatterplot with `qplot()`.
 
-```{r}
+```{r warning=FALSE}
 library(ggpubr)
 
 p1 = qplot(x = hh_income, y = crime, data = joint)
@@ -219,4 +237,31 @@ p2 = qplot(x = hh_income, y = loans, data = joint)
 ggarrange(p1, p2, ncol = 2, nrow = 1)
 ```
 
+According to the scatterplots, we can see that the income is not significantly correlated with crime hits while income has a negative correlation with loans negatively.
+
+## `covid` and `mask`
+
 Repeat the above steps using the covid data and the ACS data.
+
+```{r warning=FALSE}
+joint2 = inner_join(rescity2, acs_il, by = "location")
+
+group2 = joint2 %>% 
+  mutate(mean = mean(hh_income, na.rm = TRUE)) %>% 
+  mutate(group = ifelse(hh_income > mean, "high", "low")) %>% 
+  group_by(group) %>% 
+  summarise(covid = mean(covid, na.rm = TRUE),
+            mask = mean(mask, na.rm = TRUE)) %>% 
+  filter(!is.na(group))
+kable(group2, caption = "Search Popularity by Household Income")
+```
+
+From the table, we can see cities that have an above average median household income have higher covid hits and higher mask hits, which means search hits of covid and mask may correlate with income positively.
+
+```{r warning=FALSE}
+p3 = qplot(x = hh_income, y = covid, data = joint2)
+p4 = qplot(x = hh_income, y = mask, data = joint2)
+ggarrange(p3, p4, ncol = 2, nrow = 1)
+```
+
+According to the scatterplots, we can see that the income is positively correalted with covid and mask. This indicates that people in rich areas may pay attention to covid and its protection more, showing one kind of social inequality.
