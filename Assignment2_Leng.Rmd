@@ -122,15 +122,12 @@ Now lets add another data set. The `censusapi` package provides a nice R interfa
 Once you have an access key, store this key in the `cs_key` object. We will use this object in all following API queries.
 
 ```{r}
-#| eval: false
 cs_key <- "c007f74dde577f3e0344ae0a2a9721ed20e27142"
 ```
 
 In the following, we request basic socio-demographic information (population, median age, median household income, income per capita) for cities and villages in the state of Illinois.
 
 ```{r}
-#| eval: false
-
 acs_il <- getCensus(name = "acs/acs5",
                     vintage = 2020, 
                     vars = c("NAME", 
@@ -147,15 +144,12 @@ head(acs_il)
 Convert values that represent missings to NAs.
 
 ```{r}
-#| eval: false
-
 acs_il[acs_il == -666666666] <- NA
 ```
 
 Now, it might be useful to rename the socio-demographic variables (`B01001_001E` etc.) in our data set and assign more meaningful names.
 
 ```{r}
-#| eval: false
 acs_il <-
   acs_il %>%
   dplyr::rename(pop = B01001_001E, 

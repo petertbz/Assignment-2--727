@@ -1,5 +1,5 @@
 ---
-title: "Assignment 2"
+title: "Assignment 2 Group 8"
 subtitle: "Due at 11:59pm on October 3."
 author: Leng Seong Che; Bozhou (Peter) Tan
 format: pdf
@@ -87,7 +87,7 @@ crimloan = left_join(crime, loan, by = "date")
 cor.test(crimloan$crimehits, crimloan$loanshits)
 ```
 
-According to the graph above, search frequencies for "crime" and "loans" have similar trends at the beginning of 2020, where they both went up and down from January to around February 2020. From March to April, search frequency for "loans" increased drastically from approximately 65 to 100, while search frequency for "crime" decreased before it increased again. In other words, the two keywords have a similar trend between January and February and most time between July 2020 and January 2021. However, from March to June 2020, they seem to have a inverse relationship. 
+According to the graph above, search frequencies for "crime" and "loans" have similar trends at the beginning of 2020, where they both went up and down from January to around February 2020. From March to April, search frequency for "loans" increased drastically from approximately 65 to 100, while search frequency for "crime" decreased before it increased again. In other words, the two keywords have a similar trend between January and February and most time between July 2020 and January 2021. However, from March to June 2020, they seem to have a inverse relationship.
 
 If we use the quantitative method to compute the t-statistic and corresponding p-value, we can see that the p-value is bigger than 0.05, which means there is no statistically significant negative relationship between crime and loans.
 
@@ -199,7 +199,7 @@ vaccinecovid = left_join(vaccine, covid, by = "date")
 cor.test(vaccinecovid$vaccinehits, vaccinecovid$covidhits)
 ```
 
-The search popularities for covid and vaccine seem to have a positive relationship starting from November 2020. As the vaccine became available around this time, the search for vaccine increases drastically and follows a similar pattern of covid. 
+The search popularities for covid and vaccine seem to have a positive relationship starting from November 2020. As the vaccine became available around this time, the search for vaccine increases drastically and follows a similar pattern of covid.
 
 From the correlation test, we can see that `covid` has a significantly positive correlation with `vaccine` at 0.1 level.
 
@@ -287,7 +287,7 @@ group1 = joint %>%
 kable(group1, caption = "Search Popularity by Household Income")
 ```
 
-From the table, cities that have an above average median household income have lower crime hits and lower loans hits, which means crime and loans may correlate with income. The reason for higher mean search popularity of "crime" can be that those with lower average median household income live in some neighborhoods with a relatively higher number of crimes. Houses in areas with more crimes can be more affordable. The reason for higher mean search popularity of "loans" can be these households need more loans for various living expenses such as education. Also, the low search popularity might be due to less access to internet for lower-income. 
+From the table, cities that have an above average median household income have lower crime hits and lower loans hits, which means crime and loans may correlate with income. The reason for higher mean search popularity of "crime" can be that those with lower average median household income live in some neighborhoods with a relatively higher number of crimes. Houses in areas with more crimes can be more affordable. The reason for higher mean search popularity of "loans" can be these households need more loans for various living expenses such as education. Also, the low search popularity might be due to less access to internet for lower-income.
 
 -   Is there a relationship between the median household income and the search popularity of the Google trends terms? Describe the relationship and use a scatterplot with `qplot()`.
 
@@ -318,7 +318,7 @@ p2 = qplot(x = hh_income, y = loans, data = joint) +
 p2
 ```
 
-The results from the Pearson correlation test suggest a negative statistically significant correlation between the median household income and the search popularity for "loans" and a statistically non-significant correlation between the median household income and "crime". These can also be observed in the scatter plots. For "crime", the majority of the cities have search popularity below 40 regardless of median household income. A slightly decreasing trend according to the the regression line, however, the correlation test suggests an absence of statistically significant relationship between them. For "loans", a decreasing trend is suggested based on the regression line. As the median household income increases, the search popularity for "loans" decrease. For those with median household income higher than \$100,000, the searches are mostly lower than 25. Those median household income higher than lower than \$100,000 have a wider range of search numbers. 
+The results from the Pearson correlation test suggest a negative statistically significant correlation between the median household income and the search popularity for "loans" and a statistically non-significant correlation between the median household income and "crime". These can also be observed in the scatter plots. For "crime", the majority of the cities have search popularity below 40 regardless of median household income. A slightly decreasing trend according to the the regression line, however, the correlation test suggests an absence of statistically significant relationship between them. For "loans", a decreasing trend is suggested based on the regression line. As the median household income increases, the search popularity for "loans" decrease. For those with median household income higher than \$100,000, the searches are mostly lower than 25. Those median household income higher than lower than \$100,000 have a wider range of search numbers.
 
 ## `covid` and `mask`
 
@@ -366,7 +366,7 @@ p4 = qplot(x = hh_income, y = mask, data = joint2) +
 p4
 ```
 
-According to the scatterplots, we can see that the income is both  positively correlated with covid and mask. This indicates that people in rich areas may pay attention to covid and its protection more, showing one kind of social inequality. From the correlation test, we can see that the p-value of both tests are both less than 0.05, indicating that income has a statistically significant positive relation with both covid and mask.
+According to the scatterplots, we can see that the income is both positively correlated with covid and mask. This indicates that people in rich areas may pay attention to covid and its protection more, showing one kind of social inequality. From the correlation test, we can see that the p-value of both tests are both less than 0.05, indicating that income has a statistically significant positive relation with both covid and mask.
 
 ## `covid` and `vaccine`
 
@@ -412,4 +412,4 @@ p6 = qplot(x = hh_income, y = vaccine, data = joint3) +
 p6
 ```
 
-The results from the Pearson correlation test suggest a positive statistically significant correlation between the median household income and both keywords "covid" and "vaccine". The scatter plot results are consistent with the correlation tests. For "covid", the majority of the cities with median household income lower than \$10,000 have search popularity centered around 40. They generally have a wider range of search popularity than those with median household income higher than \$10,000. The latter mostly have over 70 searches for "covid". Based on the plot of median household income and "loans", as the median household income increases, the search popularity for "loans" seems to increase as well. About half of the cities with median household income lower than \$125,000 have search popularity below 60, while the majority of those with median household income higher than \$125,000 have search popularity above 60. 
+The results from the Pearson correlation test suggest a positive statistically significant correlation between the median household income and both keywords "covid" and "vaccine". The scatter plot results are consistent with the correlation tests. For "covid", the majority of the cities with median household income lower than \$10,000 have search popularity centered around 40. They generally have a wider range of search popularity than those with median household income higher than \$10,000. The latter mostly have over 70 searches for "covid". Based on the plot of median household income and "loans", as the median household income increases, the search popularity for "loans" seems to increase as well. About half of the cities with median household income lower than \$125,000 have search popularity below 60, while the majority of those with median household income higher than \$125,000 have search popularity above 60.
