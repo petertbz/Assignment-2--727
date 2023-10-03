@@ -8,6 +8,8 @@ editor: visual
 
 The results are based on the data at 3:30pm on Oct 1st.
 
+GitHub repo: https://github.com/petertbz/Assignment-2--727.git
+
 You may work in pairs or individually for this assignment. Make sure you join a group in Canvas if you are working in pairs. Turn in this assignment as an HTML or PDF file to ELMS. Make sure to include the R Markdown or Quarto file that was used to generate it.
 
 ```{r}
