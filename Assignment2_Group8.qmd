@@ -6,9 +6,11 @@ format: pdf
 editor: visual
 ---
 
-The results are based on the data at 3:30pm on Oct 1st.
+The results are based on the data at 7:30pm on Oct 3rd.
 
-GitHub repo: https://github.com/petertbz/Assignment-2--727.git
+GitHub repo: <https://github.com/petertbz/Assignment-2--727.git>
+
+!! Notice: The data from Google API is changing every second, so our analysis is based on the data we obtained at the time we mention above.
 
 You may work in pairs or individually for this assignment. Make sure you join a group in Canvas if you are working in pairs. Turn in this assignment as an HTML or PDF file to ELMS. Make sure to include the R Markdown or Quarto file that was used to generate it.
 
@@ -97,7 +99,7 @@ If we use the quantitative method to compute the t-statistic and corresponding p
 cor.test(rescity$crime, rescity$loans)
 ```
 
-If we investigate the relationship based on the interest by city data, the correlation test result suggests that search frequencies for "crime" and "loans" might have a statistically negative relationship. However, lots of data are missing in this dataset which might affect the reliability of the correlation test result. 
+If we investigate the relationship based on the interest by city data, the correlation test result suggests that search frequencies for "crime" and "loans" do not have a statistically correlation. However, lots of data are missing in this dataset, which might affect the reliability of the correlation test result.
 
 ## `covid` and `mask`
 
@@ -159,7 +161,7 @@ From the correlation test, we can see that `covid` has a significantly positive 
 cor.test(rescity2$covid, rescity2$mask)
 ```
 
-If we investigate the relationship based on the interest by city data, the correlation test result suggests no statistically significant relationship between search frequencies for covid and mask at 0.05 significance level.
+If we investigate the relationship based on the interest by city data, the correlation test result suggests significantly positive relationship between search frequencies for covid and mask at 0.05 significance level.
 
 ## `covid` and `vaccine`
 
@@ -223,7 +225,7 @@ rescity3$vaccine <- as.numeric(as.character(rescity3[[5]]))
 cor.test(rescity3$covid, rescity3$vaccine)
 ```
 
-If we investigate the relationship based on the interest by city data, the correlation test result suggests a positive statistically significant relationship between search frequencies for covid and vaccine at 0.05 significance level. 
+If we investigate the relationship based on the interest by city data, the correlation test result suggests a significantly positive  relationship between search frequencies for covid and vaccine at 0.05 significance level.
 
 # Google Trends + ACS
 
@@ -309,7 +311,7 @@ group1 = joint %>%
 kable(group1, caption = "Search Popularity by Household Income")
 ```
 
-From the table, cities that have an above average median household income have lower crime hits and lower loans hits, which means crime and loans may correlate with income. The reason for higher mean search popularity of "crime" can be that those with lower average median household income live in some neighborhoods with a relatively higher number of crimes. Houses in areas with more crimes can be more affordable. The reason for higher mean search popularity of "loans" can be these households need more loans for various living expenses such as education. Also, the low search popularity might be due to less access to internet for lower-income.
+From the table, cities that have an above average median household income have lower crime hits and lower loans hits, which means crime and loans may correlate with income. The reason for higher mean search popularity of "crime" can be that those with lower average median household income live in some neighborhoods with a relatively higher number of crimes. Houses in areas with more crimes can be more affordable. The reason for higher mean search popularity of "loans" can be these households need more loans for various living expenses such as education. Also, the low search popularity might be due to less access to internet for lower-income. 
 
 -   Is there a relationship between the median household income and the search popularity of the Google trends terms? Describe the relationship and use a scatterplot with `qplot()`.
 
@@ -340,7 +342,7 @@ p2 = qplot(x = hh_income, y = loans, data = joint) +
 p2
 ```
 
-The results from the Pearson correlation test suggest a negative statistically significant correlation between the median household income and the search popularity for "loans" and a statistically non-significant correlation between the median household income and "crime". These can also be observed in the scatter plots. For "crime", the majority of the cities have search popularity below 40 regardless of median household income. A slightly decreasing trend according to the the regression line, however, the correlation test suggests an absence of statistically significant relationship between them. For "loans", a decreasing trend is suggested based on the regression line. As the median household income increases, the search popularity for "loans" decrease. For those with median household income higher than \$100,000, the searches are mostly lower than 25. Those median household income higher than lower than \$100,000 have a wider range of search numbers.
+The results from the Pearson correlation test suggest a negative statistically significant correlation between the median household income and the search popularity for "loans" and a statistically non-significant correlation between the median household income and "crime" at 0.05 level. These can also be observed in the scatter plots. For "crime", the majority of the cities have search popularity below 40 regardless of median household income. A slightly decreasing trend according to the the regression line, however, the correlation test suggests an absence of statistically significant relationship between them. For "loans", a decreasing trend is suggested based on the regression line. As the median household income increases, the search popularity for "loans" decrease. For those with median household income higher than \$100,000, the searches are mostly lower than 25. Those median household income higher than lower than \$100,000 have a wider range of search numbers.
 
 ## `covid` and `mask`
 
