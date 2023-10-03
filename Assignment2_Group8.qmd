@@ -87,9 +87,15 @@ crimloan = left_join(crime, loan, by = "date")
 cor.test(crimloan$crimehits, crimloan$loanshits)
 ```
 
-According to the graph above, search frequencies for "crime" and "loans" have similar trends at the beginning of 2020, where they both went up and down from January to around February 2020. From March to April, search frequency for "loans" increased drastically from approximately 65 to 100, while search frequency for "crime" decreased before it increased again. In other words, the two keywords have a similar trend between January and February and most time between July 2020 and January 2021. However, from March to June 2020, they seem to have a inverse relationship.
+According to the plot at the beginning, search frequencies for "crime" and "loans" have similar trends at the beginning of 2020, where they both went up and down from January to around February 2020. From March to April, search frequency for "loans" increased drastically from approximately 65 to 100, while search frequency for "crime" decreased before it increased again. In other words, the two keywords have a similar trend between January and February and most time between July 2020 and January 2021. However, from March to June 2020, they seem to have a inverse relationship.
 
 If we use the quantitative method to compute the t-statistic and corresponding p-value, we can see that the p-value is bigger than 0.05, which means there is no statistically significant negative relationship between crime and loans.
+
+```{r warning=FALSE}
+cor.test(rescity$crime, rescity$loans)
+```
+
+If we investigate the relationship based on the interest by city data, the correlation test result suggests that search frequencies for "crime" and "loans" might have a statistically negative relationship. However, lots of data are missing in this dataset which might affect the reliability of the correlation test result. 
 
 ## `covid` and `mask`
 
@@ -147,6 +153,12 @@ cor.test(maskcovid$maskhits, maskcovid$covidhits)
 
 From the correlation test, we can see that `covid` has a significantly positive correlation with `mask` at 0.05 level. The correlation probably means that people will search for mask when Covid-19 is severe in one place.
 
+```{r}
+cor.test(rescity2$covid, rescity2$mask)
+```
+
+If we investigate the relationship based on the interest by city data, the correlation test result suggests no statistically significant relationship between search frequencies for covid and mask at 0.05 significance level.
+
 ## `covid` and `vaccine`
 
 We choose `covid` and `vaccine` as our keywords for analysis.
@@ -202,6 +214,14 @@ cor.test(vaccinecovid$vaccinehits, vaccinecovid$covidhits)
 The search popularities for covid and vaccine seem to have a positive relationship starting from November 2020. As the vaccine became available around this time, the search for vaccine increases drastically and follows a similar pattern of covid.
 
 From the correlation test, we can see that `covid` has a significantly positive correlation with `vaccine` at 0.1 level.
+
+```{r warning=FALSE}
+rescity3$covid <- as.numeric(as.character(rescity3[[4]]))
+rescity3$vaccine <- as.numeric(as.character(rescity3[[5]]))
+cor.test(rescity3$covid, rescity3$vaccine)
+```
+
+If we investigate the relationship based on the interest by city data, the correlation test result suggests a positive statistically significant relationship between search frequencies for covid and vaccine at 0.05 significance level. 
 
 # Google Trends + ACS
 
