@@ -311,7 +311,7 @@ group1 = joint %>%
 kable(group1, caption = "Search Popularity by Household Income")
 ```
 
-From the table, cities that have an above average median household income have lower crime hits and lower loans hits, which means crime and loans may correlate with income. The reason for higher mean search popularity of "crime" can be that those with lower average median household income live in some neighborhoods with a relatively higher number of crimes. Houses in areas with more crimes can be more affordable. The reason for higher mean search popularity of "loans" can be these households need more loans for various living expenses such as education. Also, the low search popularity might be due to less access to internet for lower-income. 
+From the table, cities that have an above average median household income have lower crime hits and lower loans hits, which means crime and loans may correlate with income. The reason for higher mean search popularity of "crime" can be that those with lower average median household income live in some neighborhoods with a relatively higher number of crimes. Houses in areas with more crimes can be more affordable. The reason for higher mean search popularity of "loans" can be these households need more loans for various living expenses such as education.
 
 -   Is there a relationship between the median household income and the search popularity of the Google trends terms? Describe the relationship and use a scatterplot with `qplot()`.
 
