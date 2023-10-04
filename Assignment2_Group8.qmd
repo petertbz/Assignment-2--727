@@ -351,6 +351,10 @@ Repeat the above steps using the covid data and the ACS data.
 ```{r warning=FALSE}
 joint2 = inner_join(rescity2, acs_il, by = "location")
 
+# check how many cities do not appear in both datasets
+n2 = (nrow(acs_il) - nrow(joint2) ) + (nrow(rescity2) - nrow(joint2))
+n2
+
 group2 = joint2 %>% 
   mutate(mean = mean(hh_income, na.rm = TRUE)) %>% 
   mutate(group = ifelse(hh_income > mean, "high", "low")) %>% 
@@ -396,6 +400,10 @@ According to the scatterplots, we can see that the income is both positively cor
 
 ```{r warning=FALSE}
 joint3 = inner_join(rescity3, acs_il, by = "location")
+
+# check how many cities do not appear in both datasets
+n3 = (nrow(acs_il) - nrow(joint3) ) + (nrow(rescity3) - nrow(joint3))
+n3
 
 group3 = joint3 %>% 
   mutate(mean = mean(hh_income, na.rm = TRUE)) %>% 
